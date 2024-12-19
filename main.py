@@ -2,13 +2,46 @@ from tkinter import *
 from pickle import load, dump
 def set_status(text, color='black'):
     canvas.itemconfig(text_id, text=text, fill=color)
-
 def pause_toggle():
-    pass
+    global pause
+    pause = not pause
+    if pause:
+        set_status('ПАУЗА')
+    else:
+        set_status('ВПЕРЕД!')
+
 def key_handler(event):
-    pass
+    if game_over:
+        return
+    if event.keycode == KEY_PAUSE:
+        pause_toggle()
+
+    if pause:
+        return
+    set_status('Вперед!')
+    if event.keycode == KEY_PLAYER1:
+        canvas.move(player1, SPEED, 0)
+    if event.keycode == KEY_PLAYER2:
+        canvas.move(player2, SPEED, 0)
+
+    check_finish()
 def check_finish():
-    pass
+    global game_over
+    coords_player1 = canvas.coords(player1)
+    coords_player2 = canvas.coords(player2)
+    coords_finish = canvas.coords(finish_id)
+
+    x1_right = coords_player1[2]
+    x2_right = coords_player2[2]
+    x_finish = coords_finish[0]
+
+    if x1_right >= x_finish:
+        set_status('Победа верхнего игрока', player1_color)
+        game_over = True
+
+    if x2_right >= x_finish:
+        set_status('Победа нижнего игрока', player2_color)
+        game_over = True
 
 game_width = 800
 game_height = 800
@@ -39,11 +72,6 @@ SPEED = 12
 
 game_over = False
 pause = False
-
-
-
-
-
 
 
 game_width = 800
