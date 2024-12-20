@@ -1,6 +1,6 @@
 from tkinter import *
 from pickle import load, dump
-
+import game_menu
 
 def set_status(text, color='black'):
     canvas.itemconfig(text_id, text=text, fill=color)
@@ -23,7 +23,7 @@ def key_handler(event):
     if game_over:
         return
     if event.keycode == KEY_PAUSE:
-        pause_toggle()
+        game_menu.pause_toggle()
 
     if pause:
         return
@@ -39,7 +39,7 @@ def key_handler(event):
     if event.keycode == KEY_PLAYER2:
         canvas.move(player2, SPEED, 0)
 
-    check_finish()
+        game_menu.check_finish()
 def menu_enter():
     if menu_current_index == 0:
         game_resume()
